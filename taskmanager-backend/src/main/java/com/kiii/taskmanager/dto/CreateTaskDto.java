@@ -11,8 +11,8 @@ import java.util.stream.Collectors;
 public record CreateTaskDto(
         String name,
         String description,
-        @Schema(type = "string", pattern = "yyyy-MM-dd'T'HH:mm")
-        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm")
+        @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
+        @Schema(type = "string", example = "2025-06-23T23:00:00")
         LocalDateTime dueTime
 ) {
     public static CreateTaskDto from(Task task) {
