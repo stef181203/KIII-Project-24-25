@@ -1,0 +1,81 @@
+name: Docker Build and Push Image
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+env:
+  REGISTRY: docker.io
+  BACKEND_IMAGE: ${{ secrets.DOCKERHUB_USERNAME }}/taskmanager-backend
+  FRONTEND_IMAGE: ${{ secrets.DOCKERHUB_USERNAME }}/taskmanager-frontend
+  VERSION: ${{ github.ref_name }}
+
+jobs:
+  
+  build-and-push-backend:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Check if backend changed
+      id: changed
+      uses: dorny/paths-filter@v3
+      with:
+        filters: |
+          backend:
+            - 'taskmanager-backend/**'
+      
+    - name: Log in to DockerHub
+      if: steps.changed.outputs.backend == 'true'
+      uses: docker/login-action@v3
+      with:
+        registry: ${{ env.REGISTRY }}
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
+    
+    - name: Build and push backend image
+      if: steps.changed.outputs.backend == 'true'
+      uses: docker/build-push-action@v5
+      with:
+        context: ./taskmanager-backend
+        push: true
+        tags: |
+          ${{ env.BACKEND_IMAGE }}:${{ env.VERSION }}
+          ${{ env.BACKEND_IMAGE }}:latest
+
+  build-and-push-frontend:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Check if frontend changed
+      id: changed
+      uses: dorny/paths-filter@v3
+      with:
+        filters: |
+          frontend:
+            - 'taskmanager-frontend/**'
+      
+    - name: Log in to DockerHub
+      if: steps.changed.output.frontend == 'true'
+      uses: docker/login-action@v3
+      with:
+        registry: ${{ env.REGISTRY }}
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
+    
+    - name: Build and push frontend image
+      if: steps.changed.output.frontend == 'true'
+      uses: docker/build-push-action@v5
+      with:
+        context: ./taskmanager-frontend
+        push: true
+        tags: |
+          ${{ env.FRONTEND_IMAGE }}:${{ env.VERSION }}
+          ${{ env.FRONTEND_IMAGE }}:latest
+
