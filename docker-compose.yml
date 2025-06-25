@@ -1,0 +1,47 @@
+services:
+  database:
+    image: postgres:17.4
+    container_name: database
+    restart: always
+    environment:
+      POSTGRES_USER: tasks
+      POSTGRES_PASSWORD: tasks
+      POSTGRES_DB: task-manager-db
+    ports:
+      - "2345:5432"
+    networks:
+      - tasks-network
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  backend:
+    image: petrovski1812/taskmanager-backend:latest
+    container_name: backend
+    environment:
+      - SERVER_PORT=9090
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://database:5432/task-manager-db
+      - SPRING_DATASOURCE_USERNAME=tasks
+      - SPRING_DATASOURCE_PASSWORD=tasks
+    ports:
+      - "9090:9090"
+    networks:
+      - tasks-network
+    depends_on:
+      - database
+
+  frontend:
+    image: petrovski1812/taskmanager-frontend:latest
+    container_name: frontend
+    ports:
+      - "3000:80"
+    networks:
+      - tasks-network
+    depends_on:
+      - backend
+
+networks:
+  tasks-network:
+    driver: bridge
+
+volumes:
+  pgdata:
