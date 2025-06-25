@@ -6,7 +6,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 const Header = () => {
     return (
         <Box>
-            <AppBar position="static">
+            <AppBar position="static" color="success">
                 <Toolbar>
                     <IconButton
                         size="large"
