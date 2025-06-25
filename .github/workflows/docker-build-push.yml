@@ -10,7 +10,7 @@ env:
   REGISTRY: docker.io
   BACKEND_IMAGE: ${{ secrets.DOCKERHUB_USERNAME }}/taskmanager-backend
   FRONTEND_IMAGE: ${{ secrets.DOCKERHUB_USERNAME }}/taskmanager-frontend
-  VERSION: $(date +%s)
+  VERSION: ${{ github.run_id }}
 
 jobs:
   
