@@ -2,14 +2,15 @@ name: Docker Build and Push Image
 
 on:
   push:
-    tags:
-      - 'v*'
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
 
 env:
   REGISTRY: docker.io
   BACKEND_IMAGE: ${{ secrets.DOCKERHUB_USERNAME }}/taskmanager-backend
   FRONTEND_IMAGE: ${{ secrets.DOCKERHUB_USERNAME }}/taskmanager-frontend
-  VERSION: ${{ github.ref_name }}
+  VERSION: $(date +%s)
 
 jobs:
   
