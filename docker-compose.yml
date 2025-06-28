@@ -32,6 +32,9 @@ services:
   frontend:
     image: petrovski1812/taskmanager-frontend:latest
     container_name: frontend
+    environment:
+      - API_BASE_URL=http://backend:9090/api
+      - SERVER_PORT=3000
     ports:
       - "3000:80"
     networks:

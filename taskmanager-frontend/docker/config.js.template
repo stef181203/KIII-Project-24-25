@@ -1,0 +1,2 @@
+window.API_BASE_URL = "$API_BASE_URL";
+window.SERVER_PORT = $SERVER_PORT;
