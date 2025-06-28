@@ -15,4 +15,3 @@ metadata:
 data:
   config.js: |
     window.API_BASE_URL = "http://backend-service:9090/api";
-    window.SERVER_PORT = 3000;
