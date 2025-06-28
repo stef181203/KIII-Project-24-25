@@ -51,6 +51,7 @@ spec:
     metadata:
       labels:
         app: frontend
+  replicas: 3
   strategy:
     type: RollingUpdate
     rollingUpdate:
