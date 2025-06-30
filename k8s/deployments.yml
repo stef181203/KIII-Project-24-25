@@ -70,12 +70,4 @@ spec:
           image: petrovski1812/taskmanager-frontend:latest
           ports:
             - containerPort: 3000
-          volumeMounts:
-            - name: frontend-config-volume
-              mountPath: /usr/share/nginx/html/config/config.js
-              subPath: config.js
-              readOnly: true
-      volumes:
-        - name: frontend-config-volume
-          configMap:
-            name: frontend-config
+
