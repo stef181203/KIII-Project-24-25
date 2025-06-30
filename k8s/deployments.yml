@@ -23,20 +23,27 @@ spec:
           image: petrovski1812/taskmanager-backend:latest
           ports:
             - containerPort: 9090
-          volumeMounts:
-            - name: backend-config-volume
-              mountPath: /etc/backend-config
-              readOnly: true
-            - name: backend-secret-volume
-              mountPath: /etc/backend-secret
-              readOnly: true
-      volumes:
-        - name: backend-config-volume
-          configMap:
-            name: backend-config
-        - name: backend-secret-volume
-          secret:
-            secretName: backend-secret
+          env:
+            - name: SERVER_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: backend-config
+                  key: SERVER_PORT
+            - name: SPRING_DATASOURCE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: backend-config
+                  key: SPRING_DATASOURCE_URL
+            - name: SPRING_DATASOURCE_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: backend-secret
+                  key: SPRING_DATASOURCE_USERNAME
+            - name: SPRING_DATASOURCE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: backend-secret
+                  key: SPRING_DATASOURCE_PASSWORD
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -63,12 +70,4 @@ spec:
           image: petrovski1812/taskmanager-frontend:latest
           ports:
             - containerPort: 3000
-          volumeMounts:
-            - name: frontend-config-volume
-              mountPath: /usr/share/nginx/html/config/config.js
-              subPath: config.js
-              readOnly: true
-      volumes:
-        - name: frontend-config-volume
-          configMap:
-            name: frontend-config
+

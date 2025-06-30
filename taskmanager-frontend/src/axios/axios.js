@@ -5,7 +5,7 @@ if (!window.API_BASE_URL) {
 }
 
 const axiosInstance = axios.create({
-    baseURL: window.API_BASE_URL || "http://localhost:9090/api",
+    baseURL: window.API_BASE_URL || "http://taskmanager.example.com/api",
     headers: {
         "Content-Type": "application/json",
     },
