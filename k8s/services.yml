@@ -18,11 +18,11 @@ metadata:
   namespace: taskmanager
 spec:
   selector:
-    app: backend
+    app: frontend
   ports:
     - protocol: TCP
       port: 3000
-      targetPort: 3000
+      targetPort: 80
 ---
 apiVersion: v1
 kind: Service

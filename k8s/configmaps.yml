@@ -10,15 +10,6 @@ data:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: frontend-config
-  namespace: taskmanager
-data:
-  config.js: |
-    window.API_BASE_URL = "http://backend-service:9090/api";
----
-apiVersion: v1
-kind: ConfigMap
-metadata:
   name: postgres-config
   namespace: taskmanager
 data:
