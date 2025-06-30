@@ -69,5 +69,5 @@ spec:
         - name: frontend
           image: petrovski1812/taskmanager-frontend:latest
           ports:
-            - containerPort: 3000
+            - containerPort: 80
 
